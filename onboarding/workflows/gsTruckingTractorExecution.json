@@ -1,0 +1,363 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "/1.0/entities/metadata/gsTruckingTractorExecution.json",
+  "description": "Gs Trucking Tractor Execution",
+  "title": "Gs Trucking Tractor Execution",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "/1.0/entities/metadata/entity.json"
+    },
+    {
+      "$ref": "/1.0/entities/metadata/core_storyboard_execution.json"
+    }
+  ],
+  "properties": {
+    "gsTruckingTractorExecution": {
+      "properties": {
+        "status": {
+          "type": "string",
+          "label": "Status"
+        },
+        "hasStarted": {
+          "type": "boolean",
+          "label": "Started Workflow?"
+        },
+        "isCompleted": {
+          "type": "boolean",
+          "label": "Completed Workflow?"
+        },
+        "bolNumber": {
+          "type": "string",
+          "label": "BOL #"
+        },
+        "tractorDocument": {
+          "$ref": "/1.0/entities/metadata/entity.json#/definitions/edge",
+          "label": "Document",
+          "entityType": "/1.0/entities/metadata/entity.json"
+        }
+      },
+      "type": "object"
+    },
+    "core_storyboard_execution": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "/1.0/entities/metadata/entity.json#/definitions/sequence",
+          "type": "string",
+          "isFilterable": true,
+          "label": "Workflow number",
+          "default": "Generating Workflow name",
+          "placeholderSequence": "Generating Workflow name"
+        },
+        "id": {
+          "$ref": "/1.0/entities/metadata/entity.json#/definitions/sequence",
+          "type": "string",
+          "default": "Generating Workflow name",
+          "placeholderSequence": "Generating Workflow name"
+        }
+      }
+    }
+  },
+  "uiSchema": {
+    "mobile": {
+      "entityCreationSection": {
+        "children": [
+          {
+            "children": [
+              {
+                "formula": "'Generating Workflow name'",
+                "isEditable": false,
+                "isVisible": false,
+                "type": "ui:computedProperty",
+                "value": "core_storyboard_execution.name"
+              },
+              {
+                "label": "GPS Coordinate",
+                "type": "ui:geolocation",
+                "value": "core_storyboard_execution.createdAt.geolocation"
+              }
+            ],
+            "title": "Workflow Information",
+            "type": "ui:section"
+          },
+          {
+            "children": [
+              {
+                "formula": "core_storyboard_execution.name",
+                "isEditable": false,
+                "isVisible": false,
+                "type": "ui:computedProperty",
+                "value": "core_storyboard_execution.id"
+              },
+              {
+                "mapActionsToProps": {
+                  "onChange": "handleRecipientsChange"
+                },
+                "mapStateToProps": {
+                  "value": "recipients"
+                },
+                "type": "ui:recipientsField"
+              }
+            ],
+            "type": "ui:section"
+          },
+          {
+            "conditionals": [
+              {
+                "action": "goNext()",
+                "test": "isTimeout && !_.isEmpty(core_storyboard_execution.name)",
+                "type": "ui:view"
+              }
+            ],
+            "mapStateToProps": {
+              "actionHooks": "actionHooks"
+            },
+            "timeoutMs": 1000,
+            "type": "ui:conditional"
+          }
+        ],
+        "mapStateToProps": {
+          "title": "entityType"
+        },
+        "metadata": {
+          "showGeolocation": true
+        },
+        "type": "ui:view"
+      }
+    },
+    "web": {
+      "components": {
+        "tasksTab": {
+          "type": "ui:view",
+          "tabLabel": "Tasks",
+          "disabled": {
+            "type": "expression",
+            "value": "entity.core_storyboard_execution.status === 'Canceled' || entity.core_storyboard_execution.status === 'Completed'"
+          },
+          "isGridContent": true,
+          "children": [
+            {
+              "type": "ui:workflowManager",
+              "mapActionsToProps": {
+                "onClose": "onClose",
+                "onStoryboardComplete": {
+                  "type": "expression",
+                  "value": "showToast('This workflow is now complete, returning to the work queue.').then(() => { returnToQueue(); })"
+                },
+                "onWorkflowCancel": {
+                  "type": "expression",
+                  "value": "setExtras('activeTabId', 1)"
+                }
+              }
+            }
+          ]
+        },
+        "detailsTab": {
+          "type": "ui:view",
+          "className": "grid-content pt3",
+          "tabLabel": "Details",
+          "children": [
+            {
+              "type": "ui:section",
+              "title": "Workflow Details",
+              "children": [
+                {
+                  "label": "Status",
+                  "type": "ui:inputField",
+                  "value": "gsTruckingTractorExecution.status",
+                   "isDisabled": true
+                },
+                {
+                  "label": "Started?",
+                  "type": "ui:checkboxField",
+                  "value": "gsTruckingTractorExecution.hasStarted",
+                   "isDisabled": true
+                },
+                {
+                  "label": "Completed?",
+                  "type": "ui:checkboxField",
+                  "value": "gsTruckingTractorExecution.isCompleted",
+                   "isDisabled": true
+                },
+                {
+                  "label": "Posted Date",
+                  "type": "ui:inputField",
+                  "value": "creationDate",
+                  "isDisabled": true
+                },
+                {
+                  "type": "ui:section",
+                  "title": "Shipment Details",
+                  "children": [
+                    {
+                      "label": "Document ID",
+                      "isDisabled": true,
+                      "showInlinePreview": true,
+                      "type": "ui:entitySelectField",
+                      "value": "gsTruckingTractorExecution.tractorDocument",
+                      "inlinePreviewSchema": "uiSchema.web.entityPreviewConcise"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "activityTab": {
+          "type": "ui:view",
+          "tabLabel": "Activity",
+          "className": "grid-block br b--light-gray",
+          "children": [
+            {
+              "type": "ui:feed",
+              "legacyEventsToShow": [
+                "11111111-0000-0000-0000-000000000006"
+              ],
+              "mapStateToProps": {
+                "workflowEvents": "entity.core_storyboard_execution.events"
+              }
+            }
+          ]
+        }
+      },
+      "entityDetailCard": {
+        "type": "ui:entityDetailCard",
+        "removeDeleteButton": true,
+        "showWorkflowCancelButton": {
+          "type": "expression",
+          "value": "entity.core_storyboard_execution.status !== 'Canceled'"
+        },
+        "mapActionsToProps": {
+          "onClose": "onClose",
+          "afterWorkflowCancel": {
+            "type": "expression",
+            "value": "showToast('This workflow has been cancelled'); setExtras('activeTabId', 1);"
+          }
+        },
+        "mapStateToProps": {
+          "entity": "entity"
+        },
+        "enableSchemaOverride": true,
+        "header": {
+          "type": "ui:entityHeader",
+          "showOpenInNewTabButton": true,
+          "children": [
+            {
+              "type": "ui:cardHeaderItem",
+              "className": "u-overflowHidden",
+              "description": {
+                "type": "expression",
+                "value": "entity.entityType"
+              },
+              "mapStateToProps": {
+                "title": "entity.displayName"
+              }
+            },
+            {
+              "type": "ui:cardHeaderItem",
+              "className": "c-cardHeader-item--grow u-overflowHidden",
+              "description2": "Status",
+              "mapStateToProps": {
+                "title": "entity.core_storyboard_execution.status",
+                "description": "description"
+              }
+            }
+          ]
+        },
+        "children": [
+          {
+            "type": "ui:tabs",
+            "className": "grid-block",
+            "mapStateToProps": {
+              "selectedTab": "extras.activeTabId"
+            },
+            "defaultTab": {
+              "type": "expression",
+              "value": "((entity.core_storyboard_execution.status === 'Canceled' || entity.core_storyboard_execution.status === 'Completed') && 1) || 0"
+            },
+            "children": [
+              {
+                "$ref": "#/uiSchema/web/components/tasksTab"
+              },
+              {
+                "$ref": "#/uiSchema/web/components/detailsTab"
+              },
+              {
+                "$ref": "#/uiSchema/web/components/activityTab"
+              }
+            ]
+          }
+        ]
+      },
+      "entityDetailCardBodyFullScreen": {
+        "children": [
+          {
+            "children": [
+              {
+                "mapStateToProps": {
+                  "selectedTab": "extras.activeTabId"
+                },
+                "defaultTab": {
+                  "type": "expression",
+                  "value": "((entity.core_storyboard_execution.status === 'Canceled' || entity.core_storyboard_execution.status === 'Completed') && 1) || 0"
+                },
+                "type": "ui:tabs",
+                "children": [
+                  {
+                    "$ref": "#/uiSchema/web/components/tasksTab"
+                  },
+                  {
+                    "$ref": "#/uiSchema/web/components/detailsTab"
+                  }
+                ]
+              },
+              {
+                "type": "ui:tabs",
+                "children": [
+                  {
+                    "$ref": "#/uiSchema/web/components/activityTab"
+                  }
+                ]
+              }
+            ],
+            "defaultSize": "50%",
+            "type": "ui:splitPane"
+          }
+        ],
+        "className": "grid-block",
+        "type": "ui:view"
+      }
+    }
+  },
+  "metadata": {
+    "hasRevisionHistory": true,
+    "namespace": "gsTruckingTractorExecution",
+    "isSearchable": true,
+    "autoCreate": true
+  },
+  "uniqueId": "d3789c07-f111-42c3-9c55-19b89a6ed464",
+  "mixins": {
+    "active": [
+      {
+        "entityId": "11111111-0000-0000-0000-000000000000",
+        "displayName": "Entity"
+      },
+      {
+        "entityId": "11111111-0000-0000-0000-000000000001",
+        "displayName": "Entity Schema"
+      }
+    ],
+    "inactive": []
+  },
+  "owner": {
+    "firm": {
+      "entityId": "00000000-0000-0000-0000-000000000000",
+      "displayName": "Vector Firm"
+    },
+    "user": {
+      "entityId": "11111111-1111-1111-1111-111111111111",
+      "displayName": "System User"
+    }
+  }
+}

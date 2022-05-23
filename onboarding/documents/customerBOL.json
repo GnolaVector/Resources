@@ -8,15 +8,14 @@
       "$ref": "/1.0/entities/metadata/document.json"
     }
   ],
-  "description": Description,
-  "entitySchema": {
-  },
-  "id": "/1.0/entities/metadata"/custom_FIRMNAM_documents_DOCTYPE.json,
+  "description": "Customer Bill of Lading",
+  "entitySchema": {},
+  "id": "/1.0/entities/metadata/custom_gsTrucking_documents_customerBOL.json",
   "metadata": {
     "hasRevisionHistory": true,
     "isAbstract": false,
     "isSearchable": true,
-    "namespace": custom_FIRMNAM_documents_DOCTYPE
+    "namespace": "custom_gsTrucking_documents_customerBOL"
   },
   "mixins": {
     "active": [
@@ -34,24 +33,30 @@
   },
   "owner": {
     "firm": {
-      "displayName": Firm Display Name,
-      "entityId": Firm UUID
+      "displayName": "G's Trucking",
+      "entityId": "0fd4fef9-09f9-44d7-9647-8bce34a4ec02"
     },
     "user": {
-      "displayName": Username,
-      "entityId": User UUID
+      "displayName": "Gianni Nola",
+      "entityId": "940ea5d4-3ca2-4bbb-80ea-dfa16c08e176"
     }
   },
   "properties": {
-    custom_FIRMNAM_documents_DOCTYPE: {
-      properties : {
-        customPropertyName: {
-          "type": array/boolean/intger/null/number/object/string,
-          "label": Custom Property Name,
-          "isFilterable":true,
-          "isSortable":true
+    "custom_gsTrucking_documents_customerBOL": {
+      "properties": {
+        "customers": {
+          "enum": [
+            "Perdue Farms",
+            "Chiquita Bananas",
+            "US Foods",
+            "McDonalds"
+          ],
+          "type": "string",
+          "label": "Customers",
+          "isSearchable": true
         }
       },
+      "required": ["customers"],
       "type": "object"
     },
     "document": {
@@ -67,13 +72,6 @@
             "files"
           ],
           "type": "object"
-        },
-        "name": { LOAD NUMBER
-          "isFilterable": true,
-          "keyboardType": "numeric",
-          "label": <enter custom reference number label name, needed HERE to modify validation message>,
-          "pattern": <enter custom RegExpt (OPTIONAL) to enforce input validation on load number format>,
-          "type": "string"
         }
       },
       "required": [
@@ -85,7 +83,7 @@
   "status": {
     "state": "new"
   },
-  "title": Title of Document (what will show up),
+  "title": "Customer Bill of Lading - Gs Trucking",
   "type": "object",
   "uiSchema": {
     "mobile": {
@@ -113,10 +111,12 @@
           {
             "children": [
               {
-                <add custom components here>: <mapped to various custom properties on this document entity>
+                "placeholder": "Customer Name",
+                "type": "ui:select",
+                "value": "custom_gsTrucking_documents_customerBOL.customers"
               }
             ],
-            "title": <enter the name of some custom section here>,
+            "title": "Customer Info",
             "type": "ui:section"
           }
         ],
@@ -177,6 +177,11 @@
                 "label": "GPS",
                 "type": "ui:locationField",
                 "value": "document.address"
+              },
+              {
+                "label": "Customer(s)",
+                "type": "ui:select",
+                "value": "custom_gsTrucking_documents_customerBOL.customers"
               }
             ],
             "title": "Load Information",
@@ -331,11 +336,16 @@
         "children": [
           {
             "type": "ui:formTable",
-            "children": [ Add any Customizations here
+            "children": [
               {
                 "placeholder": "Load Number",
                 "type": "ui:inputField",
                 "value": "document.name"
+              },
+              {
+                "placeholder": "Customer Name",
+                "type": "ui:selectField",
+                "value": "custom_gsTrucking_documents_customerBOL.customers"
               },
               {
                 "mapActionsToProps": {
@@ -360,11 +370,6 @@
                 "label": "Location",
                 "type": "ui:geolocationField",
                 "value": "document.address.geolocation"
-              },
-              {
-                label : customPropertyName,
-                type : ui:XYZ,
-                value: custom_FIRMNAM_documents_DOCTYPE.customPropertyName
               }
             ]
           }
@@ -438,6 +443,10 @@
                     "label": "GPS",
                     "type": "ui:locationField",
                     "value": "document.address.geolocation"
+                  },
+                  {
+                    "type": "ui:selectField",
+                    "value": "custom_gsTrucking_documents_customerBOL.customers"
                   }
                 ]
               }
@@ -463,5 +472,5 @@
       }
     }
   },
-  "uniqueId": New UUID
+  "uniqueId": "786c2587-094c-4227-b9bb-011872479e2b"
 }

@@ -1,0 +1,130 @@
+{
+  "core_storyboard_plan": {
+    "execution": {
+      "displayName": Name of Execution File,
+      "entityId": Entity ID of Execution File
+    },
+    "id": firmname_storyType_plan,
+    "name": Firmname StoryType Plan,
+    "permissions": [
+      {
+        "firm": {
+          "displayName": Firm Name,
+          "entityId": Firm UUID
+        }
+      }
+    ],
+    "scenes": [
+      {
+        "id": scene_user_sceneName,
+        "isEntryCheckpoint": true/false,
+        "isExitCheckpoint": false/false,
+        "name": Name of Scene,
+        "taskRoutes": [ // Optional
+          {
+            "destinations": [
+              {
+                "inputMappings": [],
+                "name": Name of Task,
+                "outputMappings": [],
+                "pathId": task_name_of_task
+              }
+            ],
+            "sourceId": "__ROOT__"
+          }
+        ],
+        "uiView": { // Optional
+          "mobile": {
+            "uiSchema": {
+              "children": [], 
+              "type": "ui:view"
+            }
+          }
+        }
+      }
+    ],
+    "serverComputedProperties": [],
+    "settings": {
+      "resumeOnActive": true OR false
+    },
+    "stories": [
+      {
+        "id": firmName_user_story,
+        "name": Firmname User Story,
+        "permissions": [
+          {
+            "firm": {
+              "displayName": Firm Name,
+              "entityId": Firm ID
+            }
+          }
+        ],
+        "platforms": ["mobile", "web", "all"], // Pick one
+        "sceneRoutes": [
+          {
+            "destinations": [
+              {
+                "entryPredicates": [],
+                "exitPredicates": [],
+                "inputMappings": [],
+                "name": User SceneName Scene,
+                "pathId": scene_nextSceneName_user
+              }
+            ],
+            "sourceId": "__ROOT__"
+          },
+          {
+            "destinations": [
+              {
+                "pathId": "__EXIT__"
+              }
+            ],
+            "sourceId": scene_prevSceneName_user
+          }
+        ],
+        "settings": {
+          "resumeOnActive": true/false
+        },
+      }
+    ],
+    "tasks": [
+      {
+        "actionType": create/edit,
+        "id": task_taskName,
+        "isEntryCheckpoint": true/false,
+        "isExitCheckpoint": true/false,
+        "name": Name of Task,
+        "uiView": {
+          "mobile": {
+            "uiSchema": {
+              "itemOptions": {"title": "<YOUR TITLE HERE>"},
+              "taskCreateSection": {"children": [], "type": "ui:view"},
+              "validationSchema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "properties": {},
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "entity": {},
+  "mixins": {
+    "active": [
+      {
+        "displayName": "Entity",
+        "entityId": "11111111-0000-0000-0000-000000000000"
+      },
+      {
+        "displayName": "Storyboard Plan",
+        "entityId": "0b770bb1-501c-4408-a477-fe409e9f5f6b"
+      }
+    ],
+    "inactive": []
+  },
+  "owner": {},
+  "uniqueId": New UUID
+}

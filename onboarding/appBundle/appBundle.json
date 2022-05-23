@@ -1,0 +1,186 @@
+{
+  "applicationBundle": {
+    "extends": [
+      {
+        "displayName": "Base Bundle",
+        "entityId": "11111111-0000-0000-0000-200000000000",
+        "modifiedDate": "2021-11-15T18:02:20.011Z"
+      },
+      {
+        "displayName": "DMS Bundle",
+        "entityId": "11111111-0000-0000-0000-200000000001",
+        "modifiedDate": "2020-12-03T00:20:06.608Z"
+      }
+    ],
+    "firm": {
+      "displayName": "G's Trucking",
+      "entityId": "0fd4fef9-09f9-44d7-9647-8bce34a4ec02"
+    },
+    "name": "G's Trucking Bundle",
+    "schemas": {
+      "/1.0/entities/metadata/billOfLading.json": {
+        "displayName": "Bill of Lading",
+        "entityId": "11111111-0000-0000-0000-000000000026",
+        "modifiedDate": "2022-04-08T19:34:14.625Z",
+        "orderPriority": 1
+      },
+      "/1.0/entities/metadata/custom_gsTrucking_documents_customerBOL.json": {
+        "displayName": "Customer Bill of Lading - Gs Trucking",
+        "entityId": "87cbc4f0-bfa2-4b0b-b2b0-69134d51ebfb",
+        "modifiedDate": "2022-04-25T15:42:36.305Z",
+        "orderPriority": 17
+      },
+      "/1.0/entities/metadata/custom_gsTrucking_documents_proofOfDelivery.json": {
+        "displayName": "Proof of Delivery - Gs Trucking",
+        "entityId": "786c2587-094c-4227-b9bb-011872479e2b",
+        "modifiedDate": "2022-04-25T15:42:36.305Z",
+        "orderPriority": 16
+      },
+      "/1.0/entities/metadata/custom_gsTrucking_documents_tractorMaintenance.json": {
+        "displayName": "Tractor Maintenance - Gs Trucking",
+        "entityId": "dfb64ed4-53f1-4510-8b38-f59131c25548",
+        "orderPriority": 18
+      },
+      "/1.0/entities/metadata/custom_gsTrucking_documents_lumberReceipt.json": {
+        "displayName": "Lumber Receipt - Gs Trucking",
+        "entityId": "ec52bda5-4d21-476d-9bf6-189b2ff9273a",
+        "orderPriority": 19
+      },
+      "/1.0/entities/metadata/custom_gsTrucking_documents_expenseReport.json": {
+        "displayName": "Expense Report - Gs Trucking",
+        "entityId": "d6494385-7f9b-4739-b55e-bd9720d0a93a",
+        "orderPriority": 20
+      },
+      "/1.0/entities/metadata/freightBill.json": {
+        "displayName": "Freight Bill",
+        "entityId": "11111111-0000-0000-0000-000000000039",
+        "modifiedDate": "2019-05-31T00:35:11.560Z",
+        "orderPriority": 2
+      },
+      "/1.0/entities/metadata/fuelAdvance.json": {
+        "displayName": "Fuel Advance",
+        "entityId": "11111111-0000-0000-0000-000000000040",
+        "modifiedDate": "2019-05-31T00:15:56.918Z",
+        "orderPriority": 3
+      },
+      "/1.0/entities/metadata/invoice.json": {
+        "displayName": "Invoice",
+        "entityId": "11111111-0000-0000-0000-000000000051",
+        "modifiedDate": "2020-12-18T00:49:39.075Z",
+        "orderPriority": 4
+      },
+      "/1.0/entities/metadata/lumperReceipt.json": {
+        "displayName": "Lumper Receipt",
+        "entityId": "11111111-0000-0000-0000-000000000055",
+        "modifiedDate": "2019-05-31T00:48:50.796Z",
+        "orderPriority": 5
+      },
+      "/1.0/entities/metadata/map.json": {
+        "displayName": "Map",
+        "entityId": "11111111-0000-0000-0000-000000000059",
+        "modifiedDate": "2019-05-31T00:19:23.112Z",
+        "orderPriority": 6
+      },
+      "/1.0/entities/metadata/osd.json": {
+        "displayName": "OS&D",
+        "entityId": "11111111-0000-0000-0000-000000000064",
+        "modifiedDate": "2019-05-31T00:21:18.304Z",
+        "orderPriority": 7
+      },
+      "/1.0/entities/metadata/other.json": {
+        "displayName": "Other",
+        "entityId": "11111111-0000-0000-0000-000000000065",
+        "modifiedDate": "2019-05-31T00:46:39.008Z",
+        "orderPriority": 8
+      },
+      "/1.0/entities/metadata/photograph.json": {
+        "displayName": "Photograph",
+        "entityId": "11111111-0000-0000-0000-000000000077",
+        "modifiedDate": "2019-05-31T00:43:33.690Z",
+        "orderPriority": 9
+      },
+      "/1.0/entities/metadata/pickTicket.json": {
+        "displayName": "Pick Ticket",
+        "entityId": "11111111-0000-0000-0000-000000000078",
+        "modifiedDate": "2019-05-31T00:24:32.534Z",
+        "orderPriority": 10
+      },
+      "/1.0/entities/metadata/proofOfDelivery.json": {
+        "displayName": "Proof of Delivery",
+        "entityId": "11111111-0000-0000-0000-000000000080",
+        "modifiedDate": "2019-05-31T00:17:27.813Z",
+        "_operation": "DELETE"
+      },
+      "/1.0/entities/metadata/purchaseOrder.json": {
+        "displayName": "Purchase Order",
+        "entityId": "11111111-0000-0000-0000-000000000081",
+        "modifiedDate": "2019-05-31T00:39:00.083Z",
+        "orderPriority": 12
+      },
+      "/1.0/entities/metadata/rateConfirmation.json": {
+        "displayName": "Rate Confirmation",
+        "entityId": "11111111-0000-0000-0000-000000000082",
+        "modifiedDate": "2019-05-31T00:15:26.507Z",
+        "orderPriority": 13
+      },
+      "/1.0/entities/metadata/tankWashTicket.json": {
+        "displayName": "Tank Wash Ticket",
+        "entityId": "11111111-0000-0000-0000-000000000090",
+        "modifiedDate": "2020-03-26T19:30:01.440Z",
+        "orderPriority": 14
+      },
+      "/1.0/entities/metadata/threePrior.json": {
+        "displayName": "Three Prior",
+        "entityId": "11111111-0000-0000-0000-000000000092",
+        "modifiedDate": "2020-03-26T19:30:17.865Z",
+        "orderPriority": 15
+      },
+      "/1.0/entities/metadata/weightTag.json": {
+        "_operation": "DELETE",
+        "entityId": "11111111-0000-0000-0000-000000000101"
+      }
+    }
+  },
+  "createdBy": {
+    "displayName": "Gianni Nola",
+    "entityId": "940ea5d4-3ca2-4bbb-80ea-dfa16c08e176"
+  },
+  "creationDate": "2022-04-21T23:54:33.966Z",
+  "mixins": {
+    "active": [
+      {
+        "displayName": "Entity",
+        "entityId": "11111111-0000-0000-0000-000000000000"
+      },
+      {
+        "displayName": "Application Bundle",
+        "entityId": "11111111-0000-0000-0000-000000000211"
+      }
+    ],
+    "inactive": [
+    ]
+  },
+  "modifiedBy": {
+    "displayName": "Gianni Nola",
+    "entityId": "940ea5d4-3ca2-4bbb-80ea-dfa16c08e176"
+  },
+  "modifiedDate": "2022-04-25T16:24:29.383Z",
+  "owner": {
+    "firm": {
+      "displayName": "Vector Firm",
+      "entityId": "00000000-0000-0000-0000-000000000000"
+    },
+    "user": {
+      "displayName": "Gianni Nola",
+      "entityId": "940ea5d4-3ca2-4bbb-80ea-dfa16c08e176"
+    }
+  },
+  "status": {
+    "progress": {
+      "message": "Processing scheduled",
+      "percent": 0
+    },
+    "state": "busy"
+  },
+  "uniqueId": "ea1cadaf-e2e0-452f-9268-55e7eab69757"
+}

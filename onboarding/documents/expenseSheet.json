@@ -1,0 +1,589 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "/1.0/entities/metadata/entity.json"
+    },
+    {
+      "$ref": "/1.0/entities/metadata/core_printable.json"
+    },
+    {
+      "$ref": "/1.0/entities/metadata/document.json"
+    }
+  ],
+  "description": "Expense Report",
+  "entitySchema": {},
+  "id": "/1.0/entities/metadata/custom_gsTrucking_documents_expenseReport.json",
+  "metadata": {
+    "hasRevisionHistory": true,
+    "isAbstract": false,
+    "isSearchable": true,
+    "namespace": "custom_gsTrucking_documents_expenseReport"
+  },
+  "mixins": {
+    "active": [
+      {
+        "displayName": "Entity",
+        "entityId": "11111111-0000-0000-0000-000000000000"
+      },
+      {
+        "displayName": "Entity Schema",
+        "entityId": "11111111-0000-0000-0000-000000000001"
+      }
+    ],
+    "inactive": []
+  },
+  "owner": {
+    "firm": {
+      "displayName": "G's Trucking",
+      "entityId": "0fd4fef9-09f9-44d7-9647-8bce34a4ec02"
+    },
+    "user": {
+      "displayName": "Gianni Nola",
+      "entityId": "940ea5d4-3ca2-4bbb-80ea-dfa16c08e176"
+    }
+  },
+  "properties": {
+    "custom_gsTrucking_documents_expenseReport": {
+      "properties": {
+        "expenses": {
+          "items": {
+            "properties": {
+              "datev2": {
+                "$ref": "/1.0/entities/metadata/entity.json#/definitions/dateTimeWithTimezone",
+                "label": "Date"
+              },
+              "category": {
+                "type": "string",
+                "label": "Category",
+                "enum": ["Meals", "Fuel", "Toll", "Lumper"]
+              },
+              "amount": {
+                "type": "number",
+                "label": "Amount"
+              }
+            },
+            "required": ["datev2", "category", "amount"],
+            "type": "object"
+          },
+          "label": "Expenses",
+          "type": "array"
+        },
+        "readyForReview": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "label": "Ready for Review?",
+          "default": "No"
+        },
+        "employeeSignature": {
+          "$ref": "/1.0/entities/metadata/entity.json#/definitions/file",
+          "label": "Employee Signature"
+        },
+        "totalExpensesCalc": {
+          "label": "Total Expenses",
+          "type": "number"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "readyForReview": {
+                "const": "Yes"
+              }
+            }
+          },
+          "then": {
+            "required": ["employeeSignature"]
+          }
+        }
+      ],
+      "type": "object"
+    },
+    "document": {
+      "properties": {
+        "name": {
+          "$ref": "/1.0/entities/metadata/entity.json#/definitions/sequence",
+          "label": "Reference Number",
+          "placeholderSequence": "Generating Reference Number"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "status": {
+    "state": "new"
+  },
+  "title": "Expense Report - Gs Trucking",
+  "type": "object",
+  "uiSchema": {
+    "mobile": {
+      "entityCreationSection": {
+        "children": [
+          {
+            "children": [
+              {
+                "formula": "'Generating Reference Number'",
+                "isVisible": false,
+                "type": "ui:computedProperty",
+                "value": "document.name"
+              }
+            ],
+            "type": "ui:section"
+          },
+          {
+            "children": [
+              {
+                "addButtonText": "ADD EXPENSE",
+                "items": {
+                  "children": [
+                    {
+                      "type": "ui:dateField",
+                      "value": "datev2",
+                      "placeholder": "Expense Date"
+                    },
+                    {
+                      "type": "ui:select",
+                      "value": "category",
+                      "placeholder": "Expense Category"
+                    },
+                    {
+                      "keyboardType": "numeric",
+                      "type": "ui:inputField",
+                      "value": "amount",
+                      "placeholder": "Expense Amount"
+                    }
+                  ],
+                  "type": "ui:view"
+                },
+                "type": "ui:list",
+                "value": "custom_gsTrucking_documents_expenseReport.expenses"
+              }
+            ],
+            "title": "Expenses",
+            "type": "ui:section"
+          },
+          {
+            "children": [
+              {
+                "type": "ui:picker",
+                "label": "Ready for Review?",
+                "value": "custom_gsTrucking_documents_expenseReport.readyForReview"
+              },
+              {
+                "conditionals": [
+                  {
+                    "children": [
+                      {
+                        "isEditable": true,
+                        "type": "ui:signatureField",
+                        "value": "custom_gsTrucking_documents_expenseReport.employeeSignature"
+                      }
+                    ],
+                    "type": "ui:view",
+                    "test": "custom_gsTrucking_documents_expenseReport.readyForReview === 'Yes'"
+                  }
+                ],
+                "type": "ui:conditional"
+              }
+            ],
+            "type": "ui:section",
+            "title": "Employee Signature"
+          }
+        ],
+        "mapStateToProps": {
+          "title": "entityType"
+        },
+        "metadata": {
+          "enableAutoGrayscale": true,
+          "enablePageDetection": true,
+          "identifiers": [
+            {
+              "path": "document.name"
+            }
+          ]
+        },
+        "type": "ui:view"
+      },
+      "entityDetailSection": {
+        "children": [
+          {
+            "children": [
+              {
+                "label": "Driver Name",
+                "mapStateToProps": {
+                  "value": "createdBy.displayName"
+                },
+                "type": "ui:inputField"
+              }
+            ],
+            "title": "Load Information",
+            "type": "ui:section"
+          },
+          {
+            "children": [
+              {
+                "items": {
+                  "children": [
+                    {
+                      "type": "ui:dateField",
+                      "value": "datev2"
+                    },
+                    {
+                      "type": "ui:inputField",
+                      "value": "category"
+                    },
+                    {
+                      "numDecimalPlaces": 2,
+                      "type": "ui:inputField",
+                      "value": "amount"
+                    }
+                  ],
+                  "type": "ui:view"
+                },
+                "type": "ui:list",
+                "value": "custom_gsTrucking_documents_expenseReport.expenses"
+              },
+              {
+                "defaultValue": 0,
+                "formula": "SUM(MAP(custom_gsTrucking_documents_expenseReport.expenses, 'amount'))",
+                "numDecimalPlaces": 2,
+                "placeholder": "Total Expenses",
+                "shadowPrefix": "$",
+                "type": "ui:computedProperty",
+                "value": "custom_gsTrucking_documents_expenseReport.totalExpensesCalc"
+              }
+            ],
+            "title": "Expenses",
+            "type": "ui:section"
+          },
+          {
+            "conditionals": [
+              {
+                "children": [
+                  {
+                    "isEditable": false,
+                    "type": "ui:signatureField",
+                    "value": "custom_gsTrucking_documents_expenseReport.employeeSignature"
+                  }
+                ],
+                "type": "ui:view",
+                "test": "custom_gsTrucking_documents_expenseReport.readyForReview === 'Yes'"
+              }
+            ],
+            "type": "ui:conditional"
+          }
+        ],
+        "type": "ui:view"
+      },
+      "entityEditSection": {
+        "children": [
+          {
+            "children": [
+              {
+                "addButtonText": "ADD EXPENSE",
+                "items": {
+                  "children": [
+                    {
+                      "type": "ui:dateField",
+                      "value": "datev2",
+                      "placeholder": "Expense Date"
+                    },
+                    {
+                      "type": "ui:select",
+                      "value": "category",
+                      "placeholder": "Expense Category"
+                    },
+                    {
+                      "keyboardType": "numeric",
+                      "type": "ui:inputField",
+                      "value": "amount",
+                      "placeholder": "Expense Amount"
+                    }
+                  ],
+                  "type": "ui:view"
+                },
+                "type": "ui:list",
+                "value": "custom_gsTrucking_documents_expenseReport.expenses"
+              }
+            ],
+            "title": "Expenses",
+            "type": "ui:section"
+          },
+          {
+            "children": [
+              {
+                "type": "ui:picker",
+                "label": "Ready for Review?",
+                "value": "custom_gsTrucking_documents_expenseReport.readyForReview"
+              },
+              {
+                "conditionals": [
+                  {
+                    "children": [
+                      {
+                        "isEditable": true,
+                        "type": "ui:signatureField",
+                        "value": "custom_gsTrucking_documents_expenseReport.employeeSignature"
+                      }
+                    ],
+                    "type": "ui:view",
+                    "test": "custom_gsTrucking_documents_expenseReport.readyForReview === 'Yes'"
+                  }
+                ],
+                "type": "ui:conditional"
+              }
+            ],
+            "type": "ui:section",
+            "title": "Employee Signature"
+          }
+        ],
+        "mapStateToProps": {
+          "title": "entityType"
+        },
+        "metadata": {
+          "enableAutoGrayscale": true,
+          "enablePageDetection": true,
+          "identifiers": [
+            {
+              "path": "document.name"
+            }
+          ]
+        },
+        "type": "ui:view"
+      }
+    },
+    "web": {
+      "components": {
+        "expensesTable": {
+          "addButtonText": "ADD EXPENSE",
+          "columns": [
+            {
+              "label": "Date"
+            },
+            {
+              "label": "Category"
+            },
+            {
+              "label": "Amount"
+            }
+          ],
+          "density": "collapse",
+          "items": {
+            "children": [
+              {
+                "type": "ui:dateInput",
+                "value": "datev2"
+              },
+              {
+                "type": "ui:input",
+                "value": "category"
+              },
+              {
+                "type": "ui:input",
+                "value": "amount"
+              }
+            ],
+            "type": "ui:htmlTableRow",
+            "value": "."
+          },
+          "showAddButton": true,
+          "type": "ui:htmlTable"
+        }
+      },
+      "entityDetailCardBodyPreview": {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "$ref": "#/uiSchema/web/entityDetailSection"
+                      }
+                    ],
+                    "className": "grid-content pt3",
+                    "type": "ui:view"
+                  }
+                ],
+                "className": "grid-block",
+                "type": "ui:view"
+              },
+              {
+                "type": "ui:shareBar"
+              },
+              {
+                "mapStateToProps": {
+                  "entity": "entity",
+                  "errors": "errors",
+                  "isVisible": "entity.isDirty"
+                },
+                "mapActionsToProps": {
+                  "onCancelButtonClick": "handleRollback",
+                  "onPrimaryButtonClick": "handleSaveEntity"
+                },
+                "type": "ui:entityFooter"
+              }
+            ],
+            "className": "grid-block vertical u-overflowHidden",
+            "tabLabel": "Details",
+            "type": "ui:view"
+          },
+          {
+            "children": [
+              {
+                "$ref": "/1.0/entities/metadata/entity.json#/uiSchema/web/entityActivitySection"
+              }
+            ],
+            "tabLabel": "Activity",
+            "className": "grid-block",
+            "type": "ui:view"
+          }
+        ],
+        "type": "ui:tabs"
+      },
+      "entityDetailCardBodyFullScreen": {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "children": [
+                          {
+                            "children": [
+                              {
+                                "$ref": "#/uiSchema/web/entityDetailSection"
+                              }
+                            ],
+                            "className": "grid-content pt3",
+                            "type": "ui:containerQueryView"
+                          }
+                        ],
+                        "className": "grid-block",
+                        "type": "ui:view"
+                      },
+                      {
+                        "type": "ui:shareBar"
+                      },
+                      {
+                        "mapActionsToProps": {
+                          "onCancelButtonClick": "handleRollback",
+                          "onPrimaryButtonClick": "handleSaveEntity"
+                        },
+                        "mapStateToProps": {
+                          "entity": "entity",
+                          "errors": "errors",
+                          "isVisible": "entity.isDirty"
+                        },
+                        "type": "ui:entityFooter"
+                      }
+                    ],
+                    "className": "grid-block vertical br b--light-gray u-overflowHidden",
+                    "tabLabel": "Details",
+                    "type": "ui:view"
+                  },
+                  {
+                    "children": [
+                      {
+                        "$ref": "/1.0/entities/metadata/entity.json#/uiSchema/web/entityActivitySection"
+                      }
+                    ],
+                    "className": "grid-block vertical",
+                    "tabLabel": "Activity",
+                    "type": "ui:view"
+                  }
+                ],
+                "type": "ui:tabs"
+              }
+            ],
+            "defaultSize": 0,
+            "minSize": 0,
+            "primary": "second",
+            "type": "ui:splitPane"
+          }
+        ],
+        "className": "grid-block",
+        "type": "ui:view"
+      },
+      "entityDetailSection": {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "type": "ui:formTable",
+                    "className": "u-bumperBottom",
+                    "children": [
+                      {
+                        "type": "ui:inputField",
+                        "value": "document.name"
+                      },
+                      {
+                        "label": "Document Type",
+                        "type": "ui:documentTypeSelectField",
+                        "value": "mixins"
+                      },
+                      {
+                        "type": "ui:checkboxField",
+                        "value": "document.processed"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "ui:formTable",
+                    "children": [
+                      {
+                        "isDisabled": true,
+                        "showLinkIcon": false,
+                        "type": "ui:entitySelectField",
+                        "value": "createdBy"
+                      },
+                      {
+                        "isDisabled": true,
+                        "type": "ui:inputField",
+                        "value": "creationDate"
+                      },
+                      {
+                        "isDisabled": true,
+                        "type": "ui:inputField",
+                        "value": "document.uploadDate"
+                      }
+                    ]
+                  }
+                ],
+                "isCollapsable": true,
+                "title": "Document Details",
+                "type": "ui:section"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "$ref": "#/uiSchema/web/components/expensesTable",
+                        "value": "custom_gsTrucking_documents_expenseReport.expenses"
+                      }
+                    ],
+                    "title": "Expense Report",
+                    "type": "ui:section"
+                  }
+                ],
+                "className": "col-md-7",
+                "type": "ui:view"
+              }
+            ],
+            "className": "row row--wide u-bumperBottom--lg",
+            "type": "ui:view"
+          }
+        ],
+        "type": "ui:view"
+      }
+    }
+  },
+  "uniqueId": "d6494385-7f9b-4739-b55e-bd9720d0a93a"
+}

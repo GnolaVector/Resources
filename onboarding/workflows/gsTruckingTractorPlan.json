@@ -1,0 +1,433 @@
+{
+  "core_storyboard_plan": {
+    "execution": {
+      "displayName": "Gs Trucking Tractor Execution",
+      "entityId": "d3789c07-f111-42c3-9c55-19b89a6ed464"
+    },
+    "id": "gsTrucking_tractor_plan",
+    "name": "Gs Trucking Tractor Plan",
+    "permissions": [
+      {
+        "firm": {
+          "displayName": "G's Trucking",
+          "entityId": "0fd4fef9-09f9-44d7-9647-8bce34a4ec02"
+        }
+      }
+    ],
+    "scenes": [
+      {
+        "id": "scene_welcome_driver",
+        "name": "Driver Welcome Scene",
+        "uiView": {
+          "mobile": {
+            "uiSchema": {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "source": {
+                        "uri": "https://i.ibb.co/LgycrgH/fresh-mart-4.png"
+                      },
+                      "type": "ui:image"
+                    },
+                    {
+                      "helpText": {
+                        "type": "expression",
+                        "value": "'Hello ' + settings.getUser().person.firstName + ', welcome to your shipment'"
+                      },
+                      "type": "ui:helpBlock"
+                    },
+                    {
+                      "buttonText": "Get Started",
+                      "outputMappings": [
+                        {
+                          "destination": "gsTruckingTractorExecution.hasStarted",
+                          "formula": "true"
+                        }
+                      ],
+                      "type": "ui:workflowButton"
+                    }
+                  ],
+                  "type": "ui:view"
+                }
+              ],
+              "type": "ui:view"
+            }
+          }
+        }
+      },
+      {
+        "id": "scene_bol_number",
+        "name": "BOL Number Scene",
+        "taskRoutes": [
+          {
+            "sourceId": "__ROOT__",
+            "destinations": [
+              {
+                "inputMappings": [
+                  {
+                    "destination": "entityId",
+                    "formula": "self.uniqueId" // confused here
+                  },
+                  {
+                    "destination": "navigationOptions",
+                    "value": {
+                      "headerLeft": {
+                        "isHidden": true
+                      },
+                      "title": "TEST"
+                    }
+                  }
+                ],
+                "name": "Enter BOL Number Task",
+                "pathId": "task_enter_bol_number"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "scene_doc_create",
+        "name": "Create Doc Scene",
+        "taskRoutes": [
+          {
+            "sourceId": "__ROOT__", // does this need to be the prev scene?
+            "destinations": [
+              {
+                "inputMappings": [
+                  {
+                    "destination": "entityId",
+                    "value": "dfb64ed4-53f1-4510-8b38-f59131c25548"
+                  },
+                  {
+                    "destination": "navigationOptions",
+                    "value": {
+                      "headerLeft": {
+                        "isHidden": true
+                      },
+                      "title": "Create"
+                    }
+                  },
+                  {
+                    "destination": "preFilledValues.dfb64ed4-53f1-4510-8b38-f59131c25548.bolNumber", // is this right?
+                    "source": "gsTruckingTractorExecution.bolNumber"
+                  }
+                ],
+                "outputMappings": [
+                  {
+                    "destination": "gsTruckingTractorExecution.bolNumber", // is this right?
+                    "source": "dfb64ed4-53f1-4510-8b38-f59131c25548.bolNumber"
+                  }
+                ],
+                "name": "Create Doc Task",
+                "pathId": "task_doc_create"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "scene_driver_choice",
+        "name": "Driver Choice Scene",
+        "uiView": {
+          "mobile": {
+            "uiSchema": {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "helpText": "Did this tractor pass maintenance?",
+                      "type": "ui:helpBlock"
+                    },
+                    {
+                      "buttonText": "Yes",
+                      "outputMappings": [
+                        {
+                          "destination": "gsTruckingTractorExecution.tractorDocument.passedMaintenance", // is this right?
+                          "formula": "Yes"
+                        }
+                      ],
+                      "type": "ui:workflowButton"
+                    },
+                    {
+                      "buttonText": "No",
+                      "outputMappings": [
+                        {
+                          "destination": "gsTruckingTractorExecution.tractorDocument.passedMaintenance",
+                          "formula": "No"
+                        }
+                      ],
+                      "type": "ui:workflowButton"
+                    }
+                  ]
+                }
+              ],
+              "type": "ui:view"
+            }
+          }
+        }
+      },
+      {
+        "id": "scene_driver_summary",
+        "name": "Driver Summary Scene",
+        "uiView": {
+          "mobile": {
+            "uiSchema": {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "source": {
+                        "uri": "https://i.ibb.co/LgycrgH/fresh-mart-4.png"
+                      },
+                      "type": "ui:image"
+                    },
+                    {
+                      "helpText": {
+                        "type": "expression",
+                        "value": "'Thank you ' + settings.getUser().person.firstName + ', everything is completed'"
+                      },
+                      "type": "ui:helpBlock"
+                    },
+                    {
+                      "buttonText": "Finished",
+                      "outputMappings": [
+                        {
+                          "destination": "gsTruckingTractorExecution.isCompleted",
+                          "formula": "true"
+                        }
+                      ],
+                      "type": "ui:workflowButton"
+                    }
+                  ],
+                  "type": "ui:view"
+                }
+              ],
+              "type": "ui:view"
+            }
+          }
+        }
+      }
+    ],
+    "serverComputedProperties": [
+      {
+        "destination": "core_storybard_execution.status",
+        "options": [
+          {
+            "conditional": "$.[?(@.core_storyboard_execution.status == 'Canceled')]",
+            "result": "Canceled"
+          },
+          {
+            "conditional": "$.[?(@.gsTruckingTractorExecution.isCompleted == true)]",
+            "result": "Completed"
+          },
+          {
+            "conditional": "$.[?(@.gsTruckingTractorExecution.hasStarted == true)]",
+            "result": "Active"
+          },
+          {
+            "conditional": "$",
+            "result": "Pending"
+          }
+        ]
+      },
+      {
+        "destination": "gsTruckingTractorExecution.status",
+        "options": [
+          {
+            "conditional": "$.[?(@.gsTruckingTractorExecution.isCompleted == true)]",
+            "result": "Completed"
+          },
+          {
+            "conditional": "$.[?(@.gsTruckingTractorExecution.hasStarted == true)]",
+            "result": "In Progress"
+          },
+          {
+            "conditional": "$",
+            "result": "New"
+          }
+        ]
+      }
+    ],
+    "settings": { "resumeOnActive": "false" },
+    "stories": [
+      {
+        "id": "gsTrucking_driver_story",
+        "name": "Gs Trucking Driver Story",
+        "permissions": [
+          {
+            "firm": {
+              "displayName": "G's Trucking",
+              "entityId": "0fd4fef9-09f9-44d7-9647-8bce34a4ec02"
+            }
+          }
+        ],
+        "platforms": ["mobile", "web"], 
+        "sceneRoutes": [
+          {
+            "sourceId": "__ROOT__",
+            "destinations": [
+              {
+                "entryPredicates": [],
+                "exitPredicates": [],
+                "inputMappings": [],
+                "name": "Driver Welcome Scene",
+                "pathId": "scene_welcome_driver"
+              }
+            ]
+          },
+          {
+            "sourceId": "scene_welcome_driver",
+            "destinations": [
+              {
+                "entryPredicates": [],
+                "exitPredicates": [],
+                "inputMappings": [],
+                "name": "BOL Number Scene",
+                "pathId": "scene_bol_number"
+              }
+            ]
+          },
+          {
+            "sourceId": "scene_bol_number",
+            "destinations": [
+              {
+                "entryPredicates": [],
+                "exitPredicates": [],
+                "inputMappings": [],
+                "name": "Create Doc Scene",
+                "pathId": "scene_doc_create"
+              }
+            ]
+          },
+          {
+            "sourceId": "scene_doc_create",
+            "destinations": [
+              {
+                "entryPredicates": [],
+                "exitPredicates": [],
+                "inputMappings": [],
+                "name": "Driver Choice Scene",
+                "pathId": "scene_driver_choice"
+              }
+            ]
+          },
+          {
+            "sourceId": "",
+            "destinations": [
+              {
+                "pathId": "__EXIT__"
+              }
+            ]
+          }
+        ],
+        "settings": {
+          "resumeOnActive": false
+        }
+      }
+    ],
+    "tasks": [
+      {
+        "actionType": "edit",
+        "id": "task_enter_bol_number",
+        "name": "Enter BOL Number Task",
+        "uiView": {
+          "mobile": {
+            "uiSchema": {
+              "itemOptions": {
+                "title": "Enter BOL Number"
+                },
+              "taskEditSection": {
+                "children": [
+                  {
+                    "label": "BOL Number",
+                    "type": "ui:inputField",
+                    "value": "gsTruckingTractorExecution.bolNumber"     
+                  }
+                ], 
+                "type": "ui:view"
+              },
+              "validationSchema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "properties": {
+                  "gsTruckingTractorExecution":{
+                    "properties": {
+                      "bolNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "required": ["gsTruckingTractorExecution"],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "isEntryCheckpoint": true/false,
+        "isExitCheckpoint": true/false
+      },
+      {
+        "actionType": "create",
+        "id": "task_doc_create",
+        "name": "Create Doc Task",
+        "uiView": {
+          "mobile": {
+            "uiSchema": {
+              "itemOptions": {
+                "title": "Create Document"
+                },
+              "taskCreateSection": {
+                "children": [
+                  {
+                    "label": "BOL Number",
+                    "type": "ui:inputField",
+                    "value": "gsTruckingTractorExecution.tractorDocument.name"     
+                  },
+                  {
+                    "label": "Trailer Picture",
+                    "type": "ui:fileInput",
+                    "value": "gsTruckingTractorExecution.tractorDocument.attachments.files"     
+                  }
+                ], 
+                "type": "ui:view"
+              },
+              "validationSchema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "properties": {
+                  "gsTruckingTractorExecution":{
+                    "properties": {
+                      "bolNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "required": ["gsTruckingTractorExecution"],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "isEntryCheckpoint": true/false,
+        "isExitCheckpoint": true/false
+      }
+    ]
+  },
+  "entity": {},
+  "mixins": {
+    "active": [
+      {
+        "displayName": "Entity",
+        "entityId": "11111111-0000-0000-0000-000000000000"
+      },
+      {
+        "displayName": "Storyboard Plan",
+        "entityId": "0b770bb1-501c-4408-a477-fe409e9f5f6b"
+      }
+    ],
+    "inactive": []
+  },
+  "owner": {},
+  "uniqueId": "60b911c2-7a50-44b5-b1ba-01dbfa46eec7"
+}

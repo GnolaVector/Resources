@@ -1,0 +1,109 @@
+{
+  "core_storyboard_plan": {
+    "execution": {
+      "entityId": UUID of Execution File,
+      "displayName": Name/Title of Execution File
+    },
+    "id": firmname_storyType_plan,
+    "name": Firmname StoryType Plan,
+    "permissions": [
+      {
+        "firm": {
+          "displayName": Firm Name,
+          "entityId": Firm UUID
+        }
+      },
+      {
+        "firm": {
+          "displayName": Firm Name,
+          "entityId": Firm UUID
+        },
+        "position": {
+          "entityId": Position UUID,
+          "displayName": Position Name
+        }
+      },
+    ],
+    "scenes": [],
+    "serverComputedProperties": [
+      {
+        "destination": "core_storyboard_execution.status",
+        "options": [
+          {
+            "conditional": "$.[?(@.core_storyboard_execution.status == 'Canceled')]",
+            "result": "Canceled"
+          }
+        ]
+      },
+      {
+        "destination": customExecutionFile.custom<status>Property,
+        "options": [
+          {
+            "conditional": "$",
+            "result": "New"
+          }
+        ]
+      }
+    ],
+    "stories": [
+      {
+        "id": firmname_user_story,
+        "name": Firmname User Story,
+        "permissions": [
+          {
+            "firm": {
+              "displayName": Firm Name,
+              "entityId": UUID of Firm
+            }
+          }
+        ],
+        "platforms": ["mobile", "web", "any"], 
+        "sceneRoutes": [
+          {
+            "destinations": [
+              {
+                "entryPredicates": [],
+                "exitPredicates": []
+                "inputMappings": [],
+                "name": Scene Name,
+                "pathId": scene_sceneType_user
+              }
+            ],
+            "sourceId": "__ROOT__"
+          },
+          {
+            "sourceId": ID from Previous Scene,
+            "destinations": [
+              {
+                "pathId": "__EXIT__"
+              }
+            ]
+          }
+        ],
+        "settings": {
+          "resumeOnActive": true/false
+        }
+      }
+    ],
+    "settings": {
+      "resumeOnActive": true/false // FALSE allows user to pick back up after closing app
+    },
+    "tasks": []
+  },
+  "entity": {},
+  "mixins": {
+    "active": [
+      {
+        "entityId": "11111111-0000-0000-0000-000000000000",
+        "displayName": "Entity"
+      },
+      {
+        "entityId": "0b770bb1-501c-4408-a477-fe409e9f5f6b",
+        "displayName": "Storyboard Plan"
+      }
+    ],
+    "inactive": []
+  },
+  "owner": {},
+  "uniqueId": New UUID
+}

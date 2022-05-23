@@ -1,0 +1,472 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "/1.0/entities/metadata/entity.json"
+    },
+    {
+      "$ref": "/1.0/entities/metadata/document.json"
+    }
+  ],
+  "description": "Proof of Delivery",
+  "entitySchema": {
+  },
+  "id": "/1.0/entities/metadata/custom_gsTrucking_documents_proofOfDelivery.json",
+  "metadata": {
+    "hasRevisionHistory": true,
+    "isAbstract": false,
+    "isSearchable": true,
+    "namespace": "custom_gsTrucking_documents_proofOfDelivery"
+  },
+  "mixins": {
+    "active": [
+      {
+        "displayName": "Entity",
+        "entityId": "11111111-0000-0000-0000-000000000000"
+      },
+      {
+        "displayName": "Entity Schema",
+        "entityId": "11111111-0000-0000-0000-000000000001"
+      }
+    ],
+    "inactive": [
+    ]
+  },
+  "owner": {
+    "firm": {
+      "displayName": "G's Trucking",
+      "entityId": "0fd4fef9-09f9-44d7-9647-8bce34a4ec02"
+    },
+    "user": {
+      "displayName": "Gianni Nola",
+      "entityId": "940ea5d4-3ca2-4bbb-80ea-dfa16c08e176"
+    }
+  },
+  "properties": {
+    "custom_gsTrucking_documents_proofOfDelivery": {
+      "properties" : {
+        "deliveryException": {
+          "type": "boolean",
+          "isFilterable": true,
+          "label":"Delivery Exception"
+        }
+      },
+      "type": "object"
+    },
+    "document": {
+      "properties": {
+        "attachments": {
+          "properties": {
+            "files": {
+              "minItems": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "files"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "attachments"
+      ],
+      "type": "object"
+    }
+  },
+  "status": {
+    "state": "new"
+  },
+  "title": "Proof of Delivery - Gs Trucking",
+  "type": "object",
+  "uiSchema": {
+    "mobile": {
+      "entityCreationSection": {
+        "children": [
+          {
+            "children": [
+              {
+                "errorPath": "document.attachments",
+                "type": "ui:fileInput",
+                "value": "document.attachments.files"
+              },
+              {
+                "mapActionsToProps": {
+                  "onChange": "handleRecipientsChange"
+                },
+                "mapStateToProps": {
+                  "value": "recipients"
+                },
+                "type": "ui:recipientsField"
+              }
+            ],
+            "type": "ui:section"
+          },
+          {
+            "children": [
+              {
+                "label": "Delivery Exception?",
+                "type": "ui:switch",
+                "value": "custom_gsTrucking_documents_proofOfDelivery.deliveryException",
+                "default": false
+              }
+            ],
+            "title": "Delivery Exception",
+            "type": "ui:section"
+          }
+        ],
+        "mapStateToProps": {
+          "title": "entityType"
+        },
+        "metadata": {
+          "enableAutoGrayscale": true,
+          "enablePageDetection": true,
+          "identifiers": [
+            {
+              "path": "document.name"
+            }
+          ]
+        },
+        "type": "ui:view"
+      },
+      "entityDetailSection": {
+        "children": [
+          {
+            "type": "ui:attachmentViewer",
+            "value": "document.attachments"
+          },
+          {
+            "children": [
+              {
+                "type": "ui:inputField",
+                "value": "document.name"
+              },
+              {
+                "label": "Document type",
+                "mapStateToProps": {
+                  "value": "entityType"
+                },
+                "type": "ui:inputField"
+              },
+              {
+                "label": "Posted By",
+                "mapStateToProps": {
+                  "value": "createdBy.displayName"
+                },
+                "type": "ui:inputField"
+              },
+              {
+                "type": "ui:inputField",
+                "value": "creationDate"
+              },
+              {
+                "type": "ui:inputField",
+                "value": "document.uploadDate"
+              },
+              {
+                "label": "Location",
+                "type": "ui:addressField",
+                "value": "document.address"
+              },
+              {
+                "label": "GPS",
+                "type": "ui:locationField",
+                "value": "document.address"
+              },
+              {
+                "label": "Delivery Exceptions?",
+                "type": "ui:switch",
+                "value": "custom_gsTrucking_documents_proofOfDelivery.deliveryException"
+              }
+            ],
+            "title": "Load Information",
+            "type": "ui:section"
+          }
+        ],
+        "type": "ui:view"
+      }
+    },
+    "web": {
+      "entityDetailCardBodyPreview": {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "$ref": "#/uiSchema/web/entityDetailSection"
+                      }
+                    ],
+                    "className": "grid-content pt3",
+                    "type": "ui:view"
+                  }
+                ],
+                "className": "grid-block",
+                "type": "ui:view"
+              },
+              {
+                "type": "ui:shareBar"
+              },
+              {
+                "mapStateToProps": {
+                  "entity": "entity",
+                  "errors": "errors",
+                  "isVisible": "entity.isDirty"
+                },
+                "mapActionsToProps": {
+                  "onCancelButtonClick": "handleRollback",
+                  "onPrimaryButtonClick": "handleSaveEntity"
+                },
+                "type": "ui:entityFooter"
+              }
+            ],
+            "className": "grid-block vertical u-overflowHidden",
+            "tabLabel": "Details",
+            "type": "ui:view"
+          },
+          {
+            "children": [
+              {
+                "$ref": "/1.0/entities/metadata/entity.json#/uiSchema/web/entityActivitySection"
+              }
+            ],
+            "tabLabel": "Activity",
+            "className": "grid-block",
+            "type": "ui:view"
+          }
+        ],
+        "type": "ui:tabs"
+      },
+      "entityDetailCardBodyFullScreen": {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "children": [
+                          {
+                            "children": [
+                              {
+                                "$ref": "#/uiSchema/web/entityDetailSection"
+                              }
+                            ],
+                            "className": "grid-content pt3",
+                            "type": "ui:view"
+                          }
+                        ],
+                        "className": "grid-block",
+                        "type": "ui:view"
+                      },
+                      {
+                        "type": "ui:shareBar"
+                      },
+                      {
+                        "mapStateToProps": {
+                          "entity": "entity",
+                          "errors": "errors",
+                          "isVisible": "entity.isDirty"
+                        },
+                        "mapActionsToProps": {
+                          "onCancelButtonClick": "handleRollback",
+                          "onPrimaryButtonClick": "handleSaveEntity"
+                        },
+                        "type": "ui:entityFooter"
+                      }
+                    ],
+                    "className": "grid-block vertical br b--light-gray u-overflowHidden",
+                    "tabLabel": "Details",
+                    "type": "ui:view"
+                  },
+                  {
+                    "children": [
+                      {
+                        "$ref": "/1.0/entities/metadata/entity.json#/uiSchema/web/entityActivitySection"
+                      }
+                    ],
+                    "tabLabel": "Activity",
+                    "className": "grid-block br b--light-gray",
+                    "type": "ui:view"
+                  }
+                ],
+                "type": "ui:tabs"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "children": [
+                          {
+                            "imagesPath": "document.attachments",
+                            "type": "ui:imageEditorCarousel"
+                          }
+                        ],
+                        "className": "grid-block u-bumperLeft--xl",
+                        "type": "ui:view"
+                      }
+                    ],
+                    "tabLabel": "Attachments",
+                    "className": "grid-block",
+                    "type": "ui:view"
+                  }
+                ],
+                "type": "ui:tabs"
+              }
+            ],
+            "primary": "first",
+            "minSize": 500,
+            "defaultSize": 500,
+            "type": "ui:splitPane"
+          }
+        ],
+        "className": "grid-block",
+        "type": "ui:view"
+      },
+      "entityCreationSection": {
+        "children": [
+          {
+            "type": "ui:formTable",
+            "children": [
+              {
+                "placeholder": "Load Number",
+                "type": "ui:inputField",
+                "value": "document.name"
+              },
+              {
+                "mapActionsToProps": {
+                  "onChange": "handleRecipientsChange"
+                },
+                "mapStateToProps": {
+                  "value": "recipients"
+                },
+                "type": "ui:recipientsField"
+              },
+              {
+                "inputClassName": "ph2",
+                "isHorizontalLayout": true,
+                "isMultiFile": true,
+                "label": "Attachments",
+                "type": "ui:fileField",
+                "value": "document.attachments.files",
+                "valuePath": "document.attachments.files"
+              },
+              {
+                "isDisabled": true,
+                "label": "Location",
+                "type": "ui:geolocationField",
+                "value": "document.address.geolocation"
+              },
+              {
+                "label": "Delivery Exceptions?",
+                "type": "ui:checkboxField",
+                "value": "custom_gsTrucking_documents_proofOfDelivery.deliveryException"
+              }
+            ]
+          }
+        ],
+        "className": "mv3 grid-content",
+        "type": "ui:view"
+      },
+      "entityDetailSection": {
+        "children": [
+          {
+            "children": [
+              {
+                "type": "ui:formTable",
+                "className": "u-bumperBottom",
+                "children": [
+                  {
+                    "type": "ui:inputField",
+                    "value": "document.name"
+                  },
+                  {
+                    "label": "Document Type",
+                    "type": "ui:documentTypeSelectField",
+                    "value": "mixins"
+                  },
+                  {
+                    "type": "ui:checkboxField",
+                    "value": "document.processed"
+                  }
+                ]
+              },
+              {
+                "type": "ui:formTable",
+                "children": [
+                  {
+                    "isDisabled": true,
+                    "showLinkIcon": false,
+                    "type": "ui:entitySelectField",
+                    "value": "createdBy"
+                  },
+                  {
+                    "isDisabled": true,
+                    "type": "ui:inputField",
+                    "value": "creationDate"
+                  },
+                  {
+                    "isDisabled": true,
+                    "type": "ui:inputField",
+                    "value": "document.uploadDate"
+                  }
+                ]
+              }
+            ],
+            "isCollapsable": true,
+            "title": "Document Details",
+            "type": "ui:section"
+          },
+          {
+            "children": [
+              {
+                "type": "ui:formTable",
+                "children": [
+                  {
+                    "isDisabled": true,
+                    "showEditableFields": false,
+                    "label": "Location",
+                    "type": "ui:addressField",
+                    "value": "document.address"
+                  },
+                  {
+                    "isDisabled": true,
+                    "label": "GPS",
+                    "type": "ui:locationField",
+                    "value": "document.address.geolocation"
+                  },
+                  {
+                    "label": "Delivery Exception",
+                    "value": "custom_gsTrucking_documents_proofOfDelivery.deliveryException",
+                    "type": "ui:checkboxField"
+                  }
+                ]
+              }
+            ],
+            "isCollapsable": true,
+            "title": "Location",
+            "type": "ui:section"
+          },
+          {
+            "children": [
+              {
+                "type": "ui:filesViewer",
+                "isHorizontalLayout": false,
+                "value": "document.attachments"
+              }
+            ],
+            "title": "Attachments",
+            "hideHeaderBorder": false,
+            "type": "ui:section"
+          }
+        ],
+        "type": "ui:view"
+      }
+    }
+  },
+  "uniqueId": "87cbc4f0-bfa2-4b0b-b2b0-69134d51ebfb"
+}
