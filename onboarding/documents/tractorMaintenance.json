@@ -90,6 +90,12 @@
             "files"
           ],
           "type": "object"
+        },
+        "name": { 
+          "isFilterable": true,
+          "keyboardType": "numeric",
+          "label": "BOL Number",
+          "type": "string"
         }
       },
       "required": [

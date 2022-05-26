@@ -1,7 +1,6 @@
 # AppBundles
 
-
-## [Creating AppBundles](https://paper.dropbox.com/doc/Vector-Basic-Firm-Configuration-BMVJ6hMFGGiqjhob3gLYL#:uid=050877809394612151869479&h2=App-Bundles)
+### [Creating AppBundles](https://paper.dropbox.com/doc/Vector-Basic-Firm-Configuration-BMVJ6hMFGGiqjhob3gLYL#:uid=050877809394612151869479&h2=App-Bundles)
 
 ##### in Repo:
 - **Create AppBundle Directory + File** —> `schemas/custom/firmName/appBundle/appBundle.json`
@@ -15,8 +14,9 @@
     - `"name"` - *firmName Bundle*
     - `"uniqueId"` - New/Random UUID
 
+---
 
-## Template
+### Template
 
 ```json
 {

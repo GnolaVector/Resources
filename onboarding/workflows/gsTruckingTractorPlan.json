@@ -28,6 +28,13 @@
                       "source": {
                         "uri": "https://i.ibb.co/LgycrgH/fresh-mart-4.png"
                       },
+                      "style": {
+                        "alignItems": "center",
+                        "height": 92,
+                        "justifyContent": "center",
+                        "margin": 30,
+                        "width": 300
+                      },
                       "type": "ui:image"
                     },
                     {
@@ -35,16 +42,31 @@
                         "type": "expression",
                         "value": "'Hello ' + settings.getUser().person.firstName + ', welcome to your shipment'"
                       },
+                      "style": {
+                        "color": "#9D9D9D",
+                        "fontSize": 28,
+                        "fontWeight": "700",
+                        "lineHeight": 30,
+                        "marginLeft": 5,
+                        "marginRight": 5
+                      },
                       "type": "ui:helpBlock"
                     },
                     {
                       "buttonText": "Get Started",
+                      "modifier": "primary",
                       "outputMappings": [
                         {
                           "destination": "gsTruckingTractorExecution.hasStarted",
                           "formula": "true"
                         }
                       ],
+                      "style": {
+                        "borderRadius": 20,
+                        "color": "white",
+                        "marginTop": 30,
+                        "width": "70%"
+                      },
                       "type": "ui:workflowButton"
                     }
                   ],
@@ -61,13 +83,12 @@
         "name": "BOL Number Scene",
         "taskRoutes": [
           {
-            "sourceId": "__ROOT__",
             "destinations": [
               {
                 "inputMappings": [
                   {
                     "destination": "entityId",
-                    "formula": "self.uniqueId" // confused here
+                    "formula": "self.uniqueId"
                   },
                   {
                     "destination": "navigationOptions",
@@ -82,7 +103,8 @@
                 "name": "Enter BOL Number Task",
                 "pathId": "task_enter_bol_number"
               }
-            ]
+            ],
+            "sourceId": "__ROOT__"
           }
         ]
       },
@@ -91,7 +113,6 @@
         "name": "Create Doc Scene",
         "taskRoutes": [
           {
-            "sourceId": "__ROOT__", // does this need to be the prev scene?
             "destinations": [
               {
                 "inputMappings": [
@@ -109,20 +130,21 @@
                     }
                   },
                   {
-                    "destination": "preFilledValues.dfb64ed4-53f1-4510-8b38-f59131c25548.bolNumber", // is this right?
+                    "destination": "preFilledValues.document.name",
                     "source": "gsTruckingTractorExecution.bolNumber"
                   }
                 ],
+                "name": "Create Doc Task",
                 "outputMappings": [
                   {
-                    "destination": "gsTruckingTractorExecution.bolNumber", // is this right?
-                    "source": "dfb64ed4-53f1-4510-8b38-f59131c25548.bolNumber"
+                    "destination": "gsTruckingTractorExecution.tractorDocument.entityId",
+                    "source": "uniqueId"
                   }
                 ],
-                "name": "Create Doc Task",
                 "pathId": "task_doc_create"
               }
-            ]
+            ],
+            "sourceId": "__ROOT__"
           }
         ]
       },
@@ -143,7 +165,7 @@
                       "buttonText": "Yes",
                       "outputMappings": [
                         {
-                          "destination": "gsTruckingTractorExecution.tractorDocument.passedMaintenance", // is this right?
+                          "destination": "gsTruckingTractorExecution.tractorDocument.passedMaintenance",
                           "formula": "Yes"
                         }
                       ],
@@ -249,7 +271,9 @@
         ]
       }
     ],
-    "settings": { "resumeOnActive": "false" },
+    "settings": {
+      "resumeOnActive": false
+    },
     "stories": [
       {
         "id": "gsTrucking_driver_story",
@@ -262,58 +286,57 @@
             }
           }
         ],
-        "platforms": ["mobile", "web"], 
+        "platforms": ["all"],
         "sceneRoutes": [
           {
-            "sourceId": "__ROOT__",
             "destinations": [
               {
-                "entryPredicates": [],
-                "exitPredicates": [],
-                "inputMappings": [],
+                "inputMappings": [
+                  {
+                    "destination": "_props",
+                    "value": {
+                      "navigationOptions": {
+                        "headerRight": {
+                          "isHidden": true
+                        }
+                      }
+                    }
+                  }
+                ],
                 "name": "Driver Welcome Scene",
                 "pathId": "scene_welcome_driver"
               }
-            ]
+            ],
+            "sourceId": "__ROOT__"
           },
           {
-            "sourceId": "scene_welcome_driver",
             "destinations": [
               {
-                "entryPredicates": [],
-                "exitPredicates": [],
-                "inputMappings": [],
                 "name": "BOL Number Scene",
                 "pathId": "scene_bol_number"
               }
-            ]
+            ],
+            "sourceId": "scene_welcome_driver"
           },
           {
-            "sourceId": "scene_bol_number",
             "destinations": [
               {
-                "entryPredicates": [],
-                "exitPredicates": [],
-                "inputMappings": [],
                 "name": "Create Doc Scene",
                 "pathId": "scene_doc_create"
               }
-            ]
+            ],
+            "sourceId": "scene_bol_number"
           },
           {
-            "sourceId": "scene_doc_create",
             "destinations": [
               {
-                "entryPredicates": [],
-                "exitPredicates": [],
-                "inputMappings": [],
                 "name": "Driver Choice Scene",
                 "pathId": "scene_driver_choice"
               }
-            ]
+            ],
+            "sourceId": "scene_doc_create"
           },
           {
-            "sourceId": "",
             "destinations": [
               {
                 "pathId": "__EXIT__"
@@ -336,21 +359,21 @@
             "uiSchema": {
               "itemOptions": {
                 "title": "Enter BOL Number"
-                },
+              },
               "taskEditSection": {
                 "children": [
                   {
                     "label": "BOL Number",
                     "type": "ui:inputField",
-                    "value": "gsTruckingTractorExecution.bolNumber"     
+                    "value": "gsTruckingTractorExecution.bolNumber"
                   }
-                ], 
+                ],
                 "type": "ui:view"
               },
               "validationSchema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
                 "properties": {
-                  "gsTruckingTractorExecution":{
+                  "gsTruckingTractorExecution": {
                     "properties": {
                       "bolNumber": {
                         "type": "string"
@@ -363,9 +386,7 @@
               }
             }
           }
-        },
-        "isEntryCheckpoint": true/false,
-        "isExitCheckpoint": true/false
+        }
       },
       {
         "actionType": "create",
@@ -376,44 +397,35 @@
             "uiSchema": {
               "itemOptions": {
                 "title": "Create Document"
-                },
+              },
               "taskCreateSection": {
                 "children": [
                   {
-                    "label": "BOL Number",
-                    "type": "ui:inputField",
-                    "value": "gsTruckingTractorExecution.tractorDocument.name"     
-                  },
-                  {
-                    "label": "Trailer Picture",
+                    "label": "Trailer Photo",
                     "type": "ui:fileInput",
-                    "value": "gsTruckingTractorExecution.tractorDocument.attachments.files"     
+                    "value": "document.attachments.files"
                   }
-                ], 
+                ],
                 "type": "ui:view"
               },
               "validationSchema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
                 "properties": {
-                  "gsTruckingTractorExecution":{
-                    "properties": {
-                      "bolNumber": {
-                        "type": "string"
-                      }
-                    }
-                  }
                 },
-                "required": ["gsTruckingTractorExecution"],
+                "required": [],
                 "type": "object"
               }
             }
           }
-        },
-        "isEntryCheckpoint": true/false,
-        "isExitCheckpoint": true/false
+        }
       }
     ]
   },
+  "createdBy": {
+    "displayName": "Gianni Nola",
+    "entityId": "7f0f396e-69c3-4774-a077-66f8ce629e3a"
+  },
+  "creationDate": "2022-05-24T17:31:42.424Z",
   "entity": {},
   "mixins": {
     "active": [
@@ -428,6 +440,23 @@
     ],
     "inactive": []
   },
-  "owner": {},
+  "modifiedBy": {
+    "displayName": "Gianni Nola",
+    "entityId": "7f0f396e-69c3-4774-a077-66f8ce629e3a"
+  },
+  "modifiedDate": "2022-05-24T17:31:42.424Z",
+  "owner": {
+    "firm": {
+      "displayName": "Vector Firm",
+      "entityId": "00000000-0000-0000-0000-000000000000"
+    },
+    "user": {
+      "displayName": "System User",
+      "entityId": "11111111-1111-1111-1111-111111111111"
+    }
+  },
+  "status": {
+    "state": "idle"
+  },
   "uniqueId": "60b911c2-7a50-44b5-b1ba-01dbfa46eec7"
 }

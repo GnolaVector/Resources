@@ -1,11 +1,11 @@
 # Workflows
 
-## Storyboard Execution
+## [Storyboard Execution](https://www.notion.so/StoryBoard-Execution-0bd30d0542f642e5a5929565be98cc6b)
 Stores the **data of the workflow**
 - Captures participants and what happened
 - When a user creates a workflow they actually create an execution
 
-#### Template
+### Template
 
 ```json
 {
@@ -373,13 +373,13 @@ Stores the **data of the workflow**
 ---
 
 
-## Storyboard Plan (`core_storyboard_plan`)
+## [Storyboard Plan](https://www.notion.so/Storyboard-Plan-4e53b867b86947058ab39a235d7220e9) (`core_storyboard_plan`)
 
-The **tasks/work to be performed by users**
+The **tasks/work** to be performed by **users**
 - Where we determine the user experience
 - Who does what and what to do when waiting for another user
 
-#### Template
+### Template
 
 ```json
 {
@@ -413,7 +413,16 @@ The **tasks/work to be performed by users**
     ],
     "inactive": []
   },
-  "owner": {},
+  "owner": {
+    "firm": {
+      "entityId": "00000000-0000-0000-0000-000000000000",
+      "displayName": "Vector Firm"
+    },
+    "user": {
+      "entityId": "11111111-1111-1111-1111-111111111111",
+      "displayName": "System User"
+    }
+  },
   "uniqueId": ""
 }
 ```
@@ -495,12 +504,12 @@ Container of **scenes**, typically performed by a **single "actor"** and form a 
    ],
    "settings": {
      "resumeOnActive": "true/false"  // Is this workflow persistent? -- False
-   },
-  }
+   }
+  },
 ]
 ```
 
-#### Template
+#### Story Template
 
 ```json
 {
@@ -580,7 +589,7 @@ Container of **tasks** that **consists of a single `uiView` which can break off 
 ]
 ```
 
-#### Template
+#### Scene Template
 
 ```json
 {
@@ -613,7 +622,7 @@ Container of **tasks** that **consists of a single `uiView` which can break off 
 ```
 
 
-### Tasks
+### [Tasks](https://www.notion.so/Tasks-31153029886f4d6fbcb3620f946d94cb)
 Define the **actions** that can be performed **within a scene by the user** such as creating/editing entities
 - Create new document
 - Edit an existing doc
@@ -648,7 +657,7 @@ Define the **actions** that can be performed **within a scene by the user** such
 }
 ```
 
-#### Template
+#### Task Template
 
 ```json
 {
@@ -742,4 +751,52 @@ Place to **manage custom or out-of-the-box workflow statuses**
     ]
   },
 ]
+```
+
+
+
+
+```json
+{
+  "id": "scene_driver_appointment_details",
+  "name": "Driver Appointment Details Scene",
+  "taskRoutes": [
+    {
+      "destinations": [
+        {
+          "inputMappings": [
+            {
+              "destination": "entityId", // Used to manipulate Execution File / Properties
+              "formula": "self.uniqueId"
+            }
+          ],
+          "name": "Driver Appointment Details Task",
+          "pathId": "task_driver_appointment_details"
+        }
+      ],
+      "sourceId": "__ROOT__"
+    }
+  ]
+},
+{
+  "id": "scene_driver_inbound_details",
+  "name": "Driver Inbound Details Scene",
+  "taskRoutes": [
+    {
+      "destinations": [
+        {
+          "inputMappings": [
+            {
+              "destination": "entityId", // Used to manipulate Document
+              "value": "3b676d94-6f9e-4103-869a-ddc0d1b4e964" // UUID of Document being manipulated
+            }
+          ],
+          "name": "Driver Inbound Details Task",
+          "pathId": "task_driver_inbound_details"
+        }
+      ],
+      "sourceId": "__ROOT__",
+    }
+  ]
+},
 ```

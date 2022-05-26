@@ -1,6 +1,6 @@
 # Documents
 
-## [Creating Documents](https://paper.dropbox.com/doc/Vector-Basic-Firm-Configuration-BMVJ6hMFGGiqjhob3gLYL#:uid=501518658042055556634776&h2=Document-Types)
+### [Creating Documents](https://paper.dropbox.com/doc/Vector-Basic-Firm-Configuration-BMVJ6hMFGGiqjhob3gLYL#:uid=501518658042055556634776&h2=Document-Types)
 
 ##### in SuperAdmin:
 - Log into **Firm's User**
@@ -22,27 +22,10 @@
 ##### in SuperAdmin:
 - Replace appBundle JSON
 
----
 
-## Document Breakdown
+## Properties
 
-### Properties
-
-```json
-"properties": {
-  "custom_FIRMNAME_documents_DOCTYPE": {
-    "properties" : {}, // custom_FIRMNAME_documents_DOCTYPE.propertyName
-    "type": "object"
-  },
-  "document": {
-    "properties": {}, // document.attachments, document.name
-    "required": [ "propertyName" ],
-    "type": "object"
-  }
-}
-```
-
-#### Document Properties
+#### [Document Properties](https://github.com/LoadDOCs/vector/blob/master/schemas/entities/document.json)
 - Inherited from `"$ref": "/1.0/entities/metadata/document.json"`
   - Also includes `recipients` and `location` properties (not shown in JSON)
 
@@ -59,8 +42,7 @@
       "required": [ "files"], // files must be included
       "type": "object"
     },
-    "name": { // Load # - default label
-      "isFilterable": true, // allows to be filtered
+    "name": { // document.name (Load # is default label)
       "keyboardType": "numeric",
       "label": "", // used to overwrite Load # label
       "pattern": "", // custom RegExpt (OPTIONAL) to enforce input validation on format
@@ -77,13 +59,14 @@
 ```json
 "custom_FIRMNAME_documents_DOCTYPE": { // Custom Properties for Custom Doc
   "properties" : {
-    "customProperty": {
+    "customProperty": { // custom_FIRMNAME_documents_DOCTYPE.customProperty
       "type": "array/boolean/intger/null/number/object/string", // REQUIRED
     }
   },
   "type": "object"
 }
 ```
+
 
 | Property       | Options                                          | Notes                | Required? |
 | :------------- | :----------------------------------------------- | -------------------- | :-------: |
@@ -95,7 +78,7 @@
 
 ---
 
-### UI Schema
+## UI Schema
 
 ```json
 "uiSchema": {
@@ -114,7 +97,7 @@
 
 ### Mobile
 
-#### Entity Create Section
+#### Create
 
 ```json
 "entityCreationSection": {
@@ -168,7 +151,7 @@
 ![Mobile Create](../_assets/mobileBOLCreate.PNG)
 
 
-#### Entity Detail Section
+#### Detail
 
 ```json
 "entityDetailSection": {
@@ -228,7 +211,7 @@
 
 ### Web
 
-#### Entity Create Section
+#### Create
 
 ```json
 "entityCreationSection": {
@@ -281,12 +264,12 @@
 ![Web Create](../_assets/webBOLCreate.png)
 
 
-#### Entity Detail Section
+#### Detail
 
 ```json
 "entityDetailSection": {
   "children": [
-    { // Section #1
+    { // Section #1 -- Document Details
       "children": [
         {
           "type": "ui:formTable",
@@ -333,7 +316,7 @@
       "title": "Document Details", // Section Title
       "type": "ui:section"
     },
-    { // Section #2
+    { // Section #2 -- Location
       "children": [
         {
           "type": "ui:formTable",
@@ -541,9 +524,15 @@
 
 </table>
 
+
+
+
 ---
 
-## Template
+
+
+
+### Template
 
 ```json
 {
