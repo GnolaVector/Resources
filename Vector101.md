@@ -3,7 +3,7 @@
 ## Terminology
 
 #### Entities
-- Just about everything and each has its own UUID!
+- Just about everything and each has its own UUID
 
 #### Firms
 - Companies (can also be divisions or business units)
